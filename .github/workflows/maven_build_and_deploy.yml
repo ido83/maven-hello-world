@@ -58,7 +58,7 @@ jobs:
 
       - name: Tag and push 
         run: |
-          #docker image tag kupidun/java-app:1.0.0 kupidon/java-app:1.0.0
+          docker image tag kupidun/java-app:1.0.0 kupidon/java-app:1.0.0
           docker push kupidon/java-app:1.0.0
 
       - name: Tag Docker image with latest
