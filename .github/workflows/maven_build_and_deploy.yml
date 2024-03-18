@@ -11,4 +11,6 @@ jobs:
 
     steps:
       - name: Increment Patch Version
-        run: mvn -f /home/kuper/Devops-Interview/maven-hello-world/myapp/pom.xml versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
+        run: |
+             cd myapp
+             mvn -f /home/kuper/Devops-Interview/maven-hello-world/myapp/pom.xml versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
