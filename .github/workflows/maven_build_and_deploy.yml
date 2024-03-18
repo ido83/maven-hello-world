@@ -17,3 +17,8 @@ jobs:
 
            #ls ${{ github.workspace }}
            #mvn versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
+
+
+     - name: Compile Java Source Code
+       run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml compile
+
