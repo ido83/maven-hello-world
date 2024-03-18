@@ -50,7 +50,7 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:1.0.0
 
       - name: Tag Docker image with latest
-        run: docker image tag java-app ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+        run: docker image tag java-app:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
 
       - name: Push Docker image with latest tag
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
