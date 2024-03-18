@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Increment Patch Version
         run: |
-           ls /home/runner/work/maven-hello-world/maven-hello-world/myapp
+           ls /home
            ls /home/runner
 
            #ls ${{ github.workspace }}
