@@ -13,5 +13,7 @@ jobs:
       - name: Increment Patch Version
         run: |
            ls ${{ github.workspace }}
+           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
+           ls
            #cd ${{ github.workspace }}/myapp
            #mvn versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
