@@ -54,12 +54,8 @@ jobs:
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-      - name: Tag Docker Image
-        run: docker tag java-app java-app:${{ steps.Increment_Version.outputs.new_version }}
-
-      - name: Push Docker image with version tag
-        run: docker push java-app:${{ steps.Increment_Version.outputs.new_version }}
+      - name: Tag and push 
+        run: docker tag java-app:${{ steps.Increment_Version.outputs.new_version }} kupidon/java-app:${{ steps.Increment_Version.outputs.new_version }} && docker push kupidon/java-app:${{ steps.Increment_Version.outputs.new_version }}
 
 
       - name: Tag Docker image with latest
