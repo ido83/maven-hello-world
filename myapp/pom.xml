@@ -81,6 +81,19 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.7</version>
+          <executions>
+            <execution>
+              <id>increment-patch-version</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>set-property</goal>
+              </goals>
+              <configuration>
+                <property>project.version</property>
+                <value>${project.version.nextIncremental}</value>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
 		<plugin>
           <groupId>org.codehaus.mojo</groupId>
