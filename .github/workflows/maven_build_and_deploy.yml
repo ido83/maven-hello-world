@@ -17,10 +17,16 @@ jobs:
       - name: Increment Patch Version
         run: |
           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
-          mvn build-helper:parse-version versions:set \
-            -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} \
-            versions:commit
+          #Getting the current Versino from the pom.xml file
+          current_version=$(grep -oP '<version>\K[^<]+' pom.xml)
+          #Increment the last section of the semntic schme verions
+          new_version=$(echo $current_version | awk -F. '{$NF = $NF + 1;} 1' OFS=.)
+          #Actually update the version insde the pom file
+          sed -i "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" pom.xml
 
+         # mvn build-helper:parse-version versions:set \
+         #   -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} \
+         #   versions:commit
 
       - name: Compile Java Source Code
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml compile
