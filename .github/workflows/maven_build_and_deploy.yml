@@ -17,7 +17,9 @@ jobs:
       - name: Increment Patch Version
         run: |
          ls ${{ github.workspace }}
-         mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
+         current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+         next_version=$(mvn help:evaluate -Dexpression="new org.apache.maven.artifact.versioning.DefaultArtifactVersion(\"$current_version\").incrementIncrementalVersion()" -q -DforceStdout)
+         mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml versions:set -DnewVersion="$next_version"
 
 
       - name: Compile Java Source Code
