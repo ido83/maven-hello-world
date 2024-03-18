@@ -23,6 +23,7 @@ jobs:
           new_version=$(echo $current_version | awk -F. '{$NF = $NF + 1;} 1' OFS=.)
           #Actually update the version insde the pom file
           awk -v current_version="$current_version" -v new_version="$new_version" 'gsub("<version>" current_version "</version>", "<version>" new_version "</version>")' pom.xml > temp && mv temp pom.xml
+
       - name: Compile Java Source Code
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml compile
 
