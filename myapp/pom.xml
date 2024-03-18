@@ -90,7 +90,7 @@
               </goals>
               <configuration>
                 <property>project.version</property>
-                <value>${project.version.nextIncremental}</value>
+                <newValue>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}</newValue>
               </configuration>
             </execution>
           </executions>
