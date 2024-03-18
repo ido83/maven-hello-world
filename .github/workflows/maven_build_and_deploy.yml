@@ -38,6 +38,7 @@ jobs:
           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
           ls
           docker build --build-arg VERSION=1.0.0 -t java-app:1.0.0 .
+          docker images | grep java-app
 
 
       - name: Log in to Docker Hub
