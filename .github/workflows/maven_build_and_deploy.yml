@@ -12,5 +12,6 @@ jobs:
     steps:
       - name: Increment Patch Version
         run: |
-           cd ${{ github.workspace }}/myapp
-           mvn versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
+           ls ${{ github.workspace }}
+           #cd ${{ github.workspace }}/myapp
+           #mvn versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
