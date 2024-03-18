@@ -18,8 +18,7 @@ jobs:
 
 
       - name: Increment Patch Version
-        run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml versions:set -DnewVersion=1.0.1
-
+        run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{print $1"."$2"."$3+1}')
 
       - name: Compile Java Source Code
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml compile
