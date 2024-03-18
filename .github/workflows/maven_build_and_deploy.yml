@@ -42,4 +42,4 @@ jobs:
           ls
           #VERSION=$(grep -oP '<version>\K[^<]+' pom.xml)
           #docker build  VERSION=1.0.0 -t javaApp:$VERSION .
-          #docker build --build-arg VERSION=1.0.0 -t java-app:1.0.0 .
+          docker build --build-arg VERSION=1.0.0 -t java-app:1.0.0 .
