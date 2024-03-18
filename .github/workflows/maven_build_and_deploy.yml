@@ -39,5 +39,4 @@ jobs:
         run: |
           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
           VERSION=$(grep -oP '<version>\K[^<]+' pom.xml)
-          docker build --build-arg VERSION=$VERSION -t your_image_name:$VERSION .
-
+          docker build --build-arg VERSION=$VERSION -t javaApp:$VERSION .
