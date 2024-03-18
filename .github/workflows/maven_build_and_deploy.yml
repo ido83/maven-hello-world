@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+
       - name: Increment Patch Version
         run: ls ${{ github.workspace }}
            #mvn versions:set -DnewVersion=[$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).nextIncrementalVersion]
