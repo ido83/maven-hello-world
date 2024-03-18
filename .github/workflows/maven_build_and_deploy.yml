@@ -13,12 +13,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
-
+      - name: Docker version
+        run: docker --version
       - name: Increment Patch Version
         run: |
           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
