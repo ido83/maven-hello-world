@@ -1,0 +1,13 @@
+name: Build and Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      #Step 1: increase the versions
