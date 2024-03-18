@@ -13,6 +13,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
 
       - name: Increment Patch Version
         run: |
@@ -39,4 +44,5 @@ jobs:
         run: |
           cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
           VERSION=$(grep -oP '<version>\K[^<]+' pom.xml)
+          docker build --build-arg VERSION=$VERSION -t javaApp:$VERSION .
           docker build --build-arg VERSION=$VERSION -t javaApp:$VERSION .
