@@ -90,5 +90,5 @@ jobs:
           CONTAINER_ID=$(docker run --name test_container -d -p 8080:8080 kupidun/java-app:latest)
           echo "Container ID: $CONTAINER_ID"
           docker logs $CONTAINER_ID
-          
+          docker stop test_container
           docker rm test_container
