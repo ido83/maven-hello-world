@@ -20,7 +20,21 @@ jobs:
          java-version: 1.8
 
       - name: Increment Patch Version and Package Artifact
-        run: mvn versions:set -DnewVersion=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$((\3+1))/'` && mvn clean package
+        run: |
+          # Extract the VErsion from the pom
+          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Current Version: $CURRENT_VERSION"
+
+          # Split the version number into major, minor, and patch scheme
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Increment the patch number by 1 
+          PATCH=$((PATCH+1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "New Version: $NEW_VERSION"
         working-directory: ./myapp
 
 
