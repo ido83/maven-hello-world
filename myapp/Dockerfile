@@ -7,9 +7,9 @@ WORKDIR /app
 #copy the JAR file into the docker image
 COPY target/*.jar app.jar
 
-
+RUN groupadd -r appuser && useradd --no-log-init -r -g appuser appuser
 #change the user to non-root user UID 1000
-USER 1000
+USER appuser
 
 #expose of the port
 EXPOSE 8080
