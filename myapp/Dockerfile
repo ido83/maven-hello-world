@@ -7,12 +7,6 @@ WORKDIR /app
 #copy the JAR file into the docker image
 COPY target/*.jar app.jar
 
-#way to pass the version as argument from the cli
-ARG VERSION
-
-#Way to set the version as lable
-LABEL version=${VERSION}
-
 
 #change the user to non-root user UID 1000
 USER 1000
