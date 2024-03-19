@@ -74,9 +74,9 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Version extracted: $VERSION"
-          docker build -t yourusername/github-pipline:$VERSION .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/github-pipline:$VERSION .
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username yourusername --password-stdin
-          docker push yourusername/github-pipline:$VERSION
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/github-pipline:$VERSION
         working-directory: ./myapp
 
 
