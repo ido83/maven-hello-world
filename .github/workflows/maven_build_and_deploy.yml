@@ -37,6 +37,7 @@ jobs:
           chmod +x versionScript.sh
           ./versionScript.sh
           echo "NEW_VERSION=$(./versionScript.sh)"
+          ls
         working-directory: ./myapp
 
       - name: Commit and Push Version Bump
