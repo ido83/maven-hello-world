@@ -4,52 +4,52 @@
 
 
 # Descreption 
-    This repository contains the source code of simple Java application,along with a GitHub Actions workflow that automates the process of building, testing, packaging, and Publish  this application image.
-    This is an overview of this CI/CD pipeline, including the technologies used, GitHub secrets configuration , and a breakdown of each step in the pipeline.
+This repository contains the source code of simple Java application,along with a GitHub Actions workflow that automates the process of building, testing, packaging, and Publish  this application image.
+This is an overview of this CI/CD pipeline, including the technologies used, GitHub secrets configuration , and a breakdown of each step in the pipeline.
 
 
 # Quick Start
-    1. **Clone the repository**: `git clone https://github.com/<username>/<repository>.git`
-    2. **Set up GitHub Secrets**: Navigate to your repository settings in GitHub, find the "Secrets" section, and add the necessary secrets mentioned (need to Match the actual names) in the "Secrets      Configuration" section.
-    3. **Trigger the workflow**: Push a change to the `master` branch or manually trigger the workflow through GitHub's UI under the "Actions" tab.
+1. **Clone the repository**: `git clone https://github.com/<username>/<repository>.git`
+2. **Set up GitHub Secrets**: Navigate to your repository settings in GitHub, find the "Secrets" section, and add the necessary secrets mentioned (need to Match the actual names) in the "Secrets      Configuration" section.
+3. **Trigger the workflow**: Push a change to the `master` branch or manually trigger the workflow through GitHub's UI under the "Actions" tab.
 
 
 # Prerequisites
-    - Docker installed on your local machine.
-    - A Docker Hub account + Generete Accesss tokens anad add them.
-    - Git installed on your local machine.
+- Docker installed on your local machine.
+- A Docker Hub account + Generete Accesss tokens anad add them.
+- Git installed on your local machine.
 
 
 # Technologies Used 
-     Java: We use Java 1.8 for compling the application.
-     Maven: For build and dependency management tool for this Project and Maven Plugins.
-     Docker: For containerizing the application, ensuring consistent environments across the runners and for images creations .
-     GitHub Actions: Automates CI/CD pipeline, from code push to Publish the final image Version.
-     Bash: For automated process like versioning and other configuration
+Java: We use Java 1.8 for compling the application.
+Maven: For build and dependency management tool for this Project and Maven Plugins.
+Docker: For containerizing the application, ensuring consistent environments across the runners and for images creations .
+GitHub Actions: Automates CI/CD pipeline, from code push to Publish the final image Version.
+Bash: For automated process like versioning and other configuration
 
 
 
 # Secrets Configuration
-    Set your own GitHub secrets to securely handle sensitive data with GitHub Actions workflow:
-    DOCKERHUB_USERNAME: Enter Your Docker Hub username, used for pushing images.
-    DOCKERHUB_PASSWORD: Enter Docker Hub password, used for Docker login.
+Set your own GitHub secrets to securely handle sensitive data with GitHub Actions workflow:
+DOCKERHUB_USERNAME: Enter Your Docker Hub username, used for pushing images.
+DOCKERHUB_PASSWORD: Enter Docker Hub password, used for Docker login.
     OR
-    DOCKERHUB_TOKEN: Enter Docker Hub Token for more secure connections.
-    GIT_USER: Your git username for committing version bumps.
-    EMAIL: Your email associated with the git user for commit operations.
+DOCKERHUB_TOKEN: Enter Docker Hub Token for more secure connections.
+GIT_USER: Your git username for committing version bumps.
+EMAIL: Your email associated with the git user for commit operations.
 
 # Workflow Overview
 
-    Workflow File Location: .github/workflows/build_and_deploy.yml
-    Trigger: The pipeline is triggered on every push to the master branch , you can change your trigger if needed.
+Workflow File Location: .github/workflows/build_and_deploy.yml
+Trigger: The pipeline is triggered on every push to the master branch , you can change your trigger if needed.
 
 # Workflow Pipline Steps Explained 
 Jobs
 Build and Deploy
 
-    Environment: The job runs on the latest Ubuntu runner (ubuntu-latest) provided by GitHub Actions. This ensures that we got a consistent and up-to-date environment for this pipeline execution.
+Environment: The job runs on the latest Ubuntu runner (ubuntu-latest) provided by GitHub Actions. This ensures that we got a consistent and up-to-date environment for this pipeline execution.
 
-    Steps:
+Steps:
         Checkout: Clones the repository code onto the runner.
         Set Up JDK 1.8: Prepares the Java development environment.
         Compile Java Source Code: Compiles the application source code.
