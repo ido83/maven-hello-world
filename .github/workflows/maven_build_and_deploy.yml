@@ -31,7 +31,7 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "${VERSION}"
-          docker build -t kupidun/java-app:${VERSION} --build-arg VERSION=$
+          docker build -t kupidun/java-app:${VERSION} --build-arg VERSION=${VERSION} .
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker image tag kupidun/java-app:$VERSION kupidun/java-app:latest
           docker image tag kupidun/java-app:$VERSION kupidun/java-app:$VERSION
