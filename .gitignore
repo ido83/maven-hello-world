@@ -9,7 +9,7 @@
 *.war
 *.ear
 *.zip
-*file.txt
+*/myapp/file.txt
 # Eclipse #
 /.project
 /.settings
