@@ -36,7 +36,7 @@ jobs:
         run: |
           chmod +x versionScript.sh
           ./versionScript.sh
-          echo "NEW_VERSION=$(./versionScript.sh)" >> $GITHUB_ENV
+          echo "NEW_VERSION=$(./versionScript.sh)"
         working-directory: ./myapp
 
 
