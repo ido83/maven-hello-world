@@ -39,6 +39,15 @@ jobs:
           echo "NEW_VERSION=$(./versionScript.sh)"
         working-directory: ./myapp
 
+      - name: Commit and Push Version Bump
+        run: |
+          git config --global user.name "${{ secrets.GIT_USER }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
+          git add pom.xml
+          git commit -m "Bump version [skip ci]"
+          git push
+        working-directory: ./myapp
+        if: github.ref == 'refs/heads/master'
 
       - name: Create Artifact
         uses: actions/upload-artifact@v2
