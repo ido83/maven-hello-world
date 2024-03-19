@@ -60,7 +60,7 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "${VERSION}"
-          docker build -t java-app/github-pipline:${VERSION} .
+          docker build -t java-app .
         working-directory: ./myapp
 
 
