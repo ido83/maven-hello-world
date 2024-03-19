@@ -44,20 +44,16 @@ Trigger: The pipeline is triggered on every push to the master branch , you can 
 Environment: The job runs on the latest Ubuntu runner (ubuntu-latest) provided by GitHub Actions. This ensures that we got a consistent and up-to-date environment for this pipeline execution.
 
 Steps:
-        *Clone Stage: Clones the repository code onto the runner.
-        *Compile Java Source Code Stage: Compiles the application source code.
-        *Tests Stage: Executes unit tests to ensure code reliability.
-        *Package Artifact Stage: Packages compiled code into a JAR file.
-        *Increment Patch Version Stage: Automatically increments the application's patch version by using bash script.
-        *Commit and Push Version Stage: Commits the version increment back to the repository to make sure the remote repo is aligned with the latest pom version.
-        *Build Docker Image Stage: Builds a Docker image of the application with 2 tags , latest and the version we working on.
-        *Login to Docker Hub Stage: Authenticates with Docker Hub to enable image pushing.
-        *Push Docker Image Stage: Pushes the built image to Docker Hub twice latest + version number.
-        *Pull Docker Image Stage: Pulls the image for testing.
-        *Run Docker Container for Testing Stage: Tests the running container to ensure the app is running on the continer.
-
-
-
-# So have FUN and Pipline as much as you can =)
+- Clone Stage: Clones the repository code onto the runner.
+- Compile Java Source Code Stage: Compiles the application source code.
+- Tests Stage: Executes unit tests to ensure code reliability.
+- Package Artifact Stage: Packages compiled code into a JAR file.
+- Increment Patch Version Stage: Automatically increments the application's patch version by using bash script.
+- Commit and Push Version Stage: Commits the version increment back to the repository to make sure the remote repo is aligned with the latest pom version.
+- Build Docker Image Stage: Builds a Docker image of the application with 2 tags , latest and the version we working on.
+- Login to Docker Hub Stage: Authenticates with Docker Hub to enable image pushing.
+- Push Docker Image Stage: Pushes the built image to Docker Hub twice latest + version number.
+- Pull Docker Image Stage: Pulls the image for testing.
+- Run Docker Container for Testing Stage: Tests the running container to ensure the app is running on the continer.
 
 ```
