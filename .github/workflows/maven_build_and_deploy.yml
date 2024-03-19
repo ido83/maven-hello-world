@@ -29,10 +29,10 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t kupidun/java-app:${{ env.NEW_VERSION }} .
+          docker build -t kupidun/java-app:$NEW_VERSION .
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push kupidun/java-app:${{ env.NEW_VERSION }}
-          docker tag kupidun/java-app:${{ env.NEW_VERSION }} kupidun/java-app:latest
+          docker push kupidun/java-app:$env.NEW_VERSION
+          docker tag kupidun/java-app:$NEW_VERSION kupidun/java-app:latest
           docker push kupidun/java-app:latest
         working-directory: ./myapp
 
