@@ -13,15 +13,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Docker version
-        run: docker --version
 
+     - name: Set up JDK 1.8
+       uses: actions/setup-java@v1
+       with:
+         java-version: 1.8
 
-      - name: Increment Patch Version
-        run: |
-          cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
-          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{print $1"."$2"."$3+1}')
-        #run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | awk -F. '{print $1"."$2"."$3+1}')
+      - name: Increment Patch Version and Package Artifact
+        run: mvn versions:set -DnewVersion=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$((\3+1))/'` && mvn clean package
+        working-directory: ./myapp
+
 
       - name: Compile Java Source Code
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml compile
@@ -29,10 +30,6 @@ jobs:
 
       - name: Run Tests
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml test -Dtest=com.myapp.AppTest
-
-
-      - name: Package Artifact
-        run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml package
 
 
       - name: Create Artifact
@@ -43,26 +40,20 @@ jobs:
 
 
       - name: Build Docker Image
-        run: |
-          cd /home/runner/work/maven-hello-world/maven-hello-world/myapp
-          docker build -t java-app .
-          docker images | grep java-app
-
-      - name: grep docker
-        run: docker images | grep java-app
-
+        run: docker build -t java-app:${{ steps.set_version.outputs.new-version }} .
+        working-directory: ./myapp
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
 
-      - name: Tag and push 
-        run: |
-          docker image tag kupidun/java-app:1.0.0 kupidon/java-app:1.0.0
-          docker push kupidon/java-app:1.0.0
+      - name: Push Docker Image to Docker Hub
+        run: docker push java-app:${{ steps.set_version.outputs.new-version }}
 
-      - name: Tag Docker image with latest
-        run: docker image tag java-app:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
 
-      - name: Push Docker image with latest tag
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+
+      - name: Download and Run Docker Image
+        run: docker run -d java-app:${{ steps.set_version.outputs.new-version }}
+
+
+
