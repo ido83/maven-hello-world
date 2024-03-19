@@ -19,7 +19,7 @@ jobs:
         with:
          java-version: 1.8
 
-      - name: Increment Patch Version and Package Artifact
+      - name: Increment Patch Version
         run: |
           # Extract the VErsion from the pom
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -45,6 +45,9 @@ jobs:
       - name: Run Tests
         run: mvn -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml test -Dtest=com.myapp.AppTest
 
+      - name: Package Artifact
+        run: mvn clean package
+        working-directory: ./myapp
 
       - name: Create Artifact
         uses: actions/upload-artifact@v2
