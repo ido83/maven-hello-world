@@ -7,14 +7,13 @@
 This repository contains the source code of simple Java application,along with a GitHub Actions workflow that automates the process of building, testing, packaging, and Publish  this application image.
 This is an overview of this CI/CD pipeline, including the technologies used, GitHub secrets configuration , and a breakdown of each step in the pipeline.
 
+# Prerequisites
+- Git installed on your local machine.
+
 
 # Quick Start
  **Trigger the workflow**: Push a change to the `master` branch or manually trigger the workflow through GitHub's UI under the "Actions" tab.
 
-
-# Prerequisites
-- A Docker Hub account + Generete Accesss tokens anad add them.
-- Git installed on your local machine.
 
 
 # Technologies Used 
