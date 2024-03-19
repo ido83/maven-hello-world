@@ -74,8 +74,8 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Version extracted: $VERSION"
-          docker image tag java-app ${{ secrets.DOCKERHUB_USERNAME }}/java-app:"${VERSION}"
-          docker image push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:"${VERSION}"
+          docker image tag java-app ${{ secrets.DOCKERHUB_USERNAME }}/java-app:1.0.0
+          docker image push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:1.0.0
         working-directory: ./myapp
 
 
