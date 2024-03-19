@@ -15,14 +15,10 @@ jobs:
 
       - name: Increment Patch Version and Commit
         run: |
-          chmod +x versionScript.sh
-          ./versionScript.sh
-          NEW_VERSION=$(./versionScript.sh)
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           git config --global user.name "${{ secrets.GIT_USER }}"
           git config --global user.email "${{ secrets.EMAIL }}"
           git add pom.xml
-          git commit -m "Bump version to $NEW_VERSION [skip ci]"
+          git commit -m "Bump version [skip ci]"
           git push
         working-directory: ./myapp
         if: github.ref == 'refs/heads/dockerstage'
