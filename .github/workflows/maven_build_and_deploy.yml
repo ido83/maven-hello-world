@@ -59,7 +59,8 @@ jobs:
       - name: Build Docker Image
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          docker build -t kupidun/github-pipline:${VERSION} .
+          #docker build -t kupidun/github-pipline:${VERSION} .
+          docker build -t java-app/github-pipline:${VERSION} .
         working-directory: ./myapp
 
 
