@@ -50,12 +50,6 @@ jobs:
         working-directory: ./myapp
         if: github.ref == 'refs/heads/master'
 
-      - name: Create Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: ./myapp/target/*.jar
-
 
       - name: Build Docker Image
         run: |
