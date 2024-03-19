@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-
+    steps:
       - name: Increment Patch Version and Commit
         run: |
           chmod +x versionScript.sh
