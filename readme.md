@@ -1,147 +1,86 @@
-# A simple, minimal Maven example: hello world
-
-To create the files in this git repo we've already run `mvn archetype:generate` from http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
-    
-    mvn archetype:generate -DgroupId=com.myapp.app -DartifactId=myapp -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
-
-Now, to print "Hello World!", type either...
-
-    cd myapp
-    mvn compile
-    java -cp target/classes com.myapp.app.App
-
-or...
-
-    cd myapp
-    mvn package
-    java -cp target/myapp-1.0-SNAPSHOT.jar com.myapp.app.App
-
-Running `mvn clean` will get us back to only the source Java and the `pom.xml`:
-
-    murphy:myapp pdurbin$ mvn clean --quiet
-    murphy:myapp pdurbin$ ack -a -f
-    pom.xml
-    src/main/java/com/myapp/app/App.java
-    src/test/java/com/myapp/app/AppTest.java
-
-Running `mvn compile` produces a class file:
-
-    murphy:myapp pdurbin$ mvn compile --quiet
-    murphy:myapp pdurbin$ ack -a -f
-    pom.xml
-    src/main/java/com/myapp/app/App.java
-    src/test/java/com/myapp/app/AppTest.java
-    target/classes/com/myapp/app/App.class
-    murphy:myapp pdurbin$ 
-    murphy:myapp pdurbin$ java -cp target/classes com.myapp.app.App
-    Hello World!
-
-Running `mvn package` does a compile and creates the target directory, including a jar:
-
-    murphy:myapp pdurbin$ mvn clean --quiet
-    murphy:myapp pdurbin$ mvn package > /dev/null
-    murphy:myapp pdurbin$ ack -a -f
-    pom.xml
-    src/main/java/com/myapp/app/App.java
-    src/test/java/com/myapp/app/AppTest.java
-    target/classes/com/myapp/app/App.class
-    target/maven-archiver/pom.properties
-    target/myapp-1.0-SNAPSHOT.jar
-    target/surefire-reports/com.myapp.app.AppTest.txt
-    target/surefire-reports/TEST-com.myapp.app.AppTest.xml
-    target/test-classes/com/myapp/app/AppTest.class
-    murphy:myapp pdurbin$ 
-    murphy:myapp pdurbin$ java -cp target/myapp-1.0-SNAPSHOT.jar com.myapp.app.App
-    Hello World!
-
-Running `mvn clean compile exec:java` requires http://mojo.codehaus.org/exec-maven-plugin/
-
-Running `java -jar target/myapp-1.0-SNAPSHOT.jar` requires http://maven.apache.org/plugins/maven-shade-plugin/
-
-# Runnable Jar:
-JAR Plugin
-The Maven’s jar plugin will create jar file and we need to define the main class that will get executed when we run the jar file.
-```
-<plugin>
-  <artifactId>maven-jar-plugin</artifactId>
-  <version>3.0.2</version>
-  <configuration>
-    <archive>
-      <manifest>
-        <addClasspath>true</addClasspath>
-        <mainClass>com.myapp.App</mainClass>
-      </manifest>
-    </archive>
-  </configuration>
-</plugin>
-```
+# Build and Publish Java Application Pipeline with GitHub Actions and DockerHub
 
 
-# Folder tree before package:
-```
-├── pom.xml
-└── src
-    ├── main
-    │   └── java
-    │       └── com
-    │           └── myapp
-    │               └── app
-    │                   └── App.java
-    └── test
-        └── java
-            └── com
-                └── myapp
-                    └── app
-                        └── AppTest.java
 
-```
-# Folder tree after package:
-```
 
-.
-├── pom.xml
-├── src
-│   ├── main
-│   │   └── java
-│   │       └── com
-│   │           └── myapp
-│   │               └── app
-│   │                   └── App.java
-│   └── test
-│       └── java
-│           └── com
-│               └── myapp
-│                   └── app
-│                       └── AppTest.java
-└── target
-    ├── classes
-    │   └── com
-    │       └── myapp
-    │           └── app
-    │               └── App.class
-    ├── generated-sources
-    │   └── annotations
-    ├── generated-test-sources
-    │   └── test-annotations
-    ├── maven-archiver
-    │   └── pom.properties
-    ├── maven-status
-    │   └── maven-compiler-plugin
-    │       ├── compile
-    │       │   └── default-compile
-    │       │       ├── createdFiles.lst
-    │       │       └── inputFiles.lst
-    │       └── testCompile
-    │           └── default-testCompile
-    │               ├── createdFiles.lst
-    │               └── inputFiles.lst
-    ├── myapp-1.0-SNAPSHOT.jar
-    ├── surefire-reports
-    │   ├── com.myapp.app.AppTest.txt
-    │   └── TEST-com.myapp.app.AppTest.xml
-    └── test-classes
-        └── com
-            └── myapp
-                └── app
-                    └── AppTest.class
+# Descreption 
+    This repository contains the source code of simple Java application,along with a GitHub Actions workflow that automates the process of building, testing, packaging, and Publish  this application image.
+    This is an overview of this CI/CD pipeline, including the technologies used, GitHub secrets configuration , and a breakdown of each step in the pipeline.
+
+
+# Quick Start
+    1. **Clone the repository**: `git clone https://github.com/<username>/<repository>.git`
+    2. **Set up GitHub Secrets**: Navigate to your repository settings in GitHub, find the "Secrets" section, and add the necessary secrets mentioned (need to Match the actual names) in the "Secrets      Configuration" section.
+    3. **Trigger the workflow**: Push a change to the `master` branch or manually trigger the workflow through GitHub's UI under the "Actions" tab.
+
+
+# Prerequisites
+    - Docker installed on your local machine.
+    - A Docker Hub account + Generete Accesss tokens anad add them.
+    - Git installed on your local machine.
+
+
+# Technologies Used 
+     Java: We use Java 1.8 for compling the application.
+     Maven: For build and dependency management tool for this Project and Maven Plugins.
+     Docker: For containerizing the application, ensuring consistent environments across the runners and for images creations .
+     GitHub Actions: Automates CI/CD pipeline, from code push to Publish the final image Version.
+     Bash: For automated process like versioning and other configuration
+
+
+
+# Secrets Configuration
+    Set your own GitHub secrets to securely handle sensitive data with GitHub Actions workflow:
+    DOCKERHUB_USERNAME: Enter Your Docker Hub username, used for pushing images.
+    DOCKERHUB_PASSWORD: Enter Docker Hub password, used for Docker login.
+    OR
+    DOCKERHUB_TOKEN: Enter Docker Hub Token for more secure connections.
+    GIT_USER: Your git username for committing version bumps.
+    EMAIL: Your email associated with the git user for commit operations.
+
+# Workflow Overview
+
+    Workflow File Location: .github/workflows/build_and_deploy.yml
+    Trigger: The pipeline is triggered on every push to the master branch , you can change your trigger if needed.
+
+# Workflow Pipline Steps Explained 
+Jobs
+Build and Deploy
+
+    Environment: The job runs on the latest Ubuntu runner (ubuntu-latest) provided by GitHub Actions. This ensures that we got a consistent and up-to-date environment for this pipeline execution.
+
+    Steps:
+        Checkout: Clones the repository code onto the runner.
+        Set Up JDK 1.8: Prepares the Java development environment.
+        Compile Java Source Code: Compiles the application source code.
+        Run Tests: Executes unit tests to ensure code reliability.
+        Package Artifact: Packages compiled code into a JAR file.
+        Increment Patch Version: Automatically increments the application's patch version by using bash script.
+        Commit and Push Version : Commits the version increment back to the repository to make sure the remote repo is aligned with the latest pom version.
+        Build Docker Image: Builds a Docker image of the application with 2 tags , latest and the version we working on.
+        Login to Docker Hub: Authenticates with Docker Hub to enable image pushing.
+        Push Docker Image: Pushes the built image to Docker Hub twice latest + version number.
+        Pull Docker Image: Pulls the image for testing.
+        Run Docker Container for Testing: Tests the running container to ensure the app is running on the continer.
+## Troubleshooting/Common Issues
+
+- **Issue**: Docker login fails with "unauthorized" error.
+  - **Solution**: Ensure your `DOCKERHUB_USERNAME` and `DOCKERHUB_PASSWORD` or `DOCKERHUB_TOKEN` secrets are correctly set in the GitHub repository settings.
+
+## Feedback
+
+Your feedback is crucial for making this project better! There are several ways you can provide feedback or get help:
+
+### Reporting Issues or Suggestions
+
+If you encounter any bugs or have suggestions for improvements, please report them by opening an issue in the GitHub repository. Here's how:
+
+1. Navigate to the **Issues** tab of the GitHub repository.
+2. Click on **New Issue**.
+3. Choose an appropriate template if available, or start with a blank issue.
+4. Provide a descriptive title and detailed information about the issue or suggestion. Screenshots and code snippets can be very helpful.
+5. Submit the issue.
+
+# So have FUN and Pipline as much as you can =)
+
 ```
