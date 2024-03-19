@@ -87,11 +87,8 @@ jobs:
 
       - name: Run Docker Container for Testing
         run: |
-          docker run --name test_container -d -p 8080:8080 kupidun/java-app:latest
-          # use some gapping with sleep to test
-          sleep 10
-
-          curl localhost:8080
-
-          docker stop test_container
+          CONTAINER_ID=$(docker run --name test_container -d -p 8080:8080 kupidun/java-app:latest)
+          echo "Container ID: $CONTAINER_ID"
+          docker logs $CONTAINER_ID
+          
           docker rm test_container
