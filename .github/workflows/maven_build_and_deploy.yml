@@ -74,7 +74,8 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Version extracted: $VERSION"
-          docker push "${{ secrets.DOCKERHUB_USERNAME }}"/github-pipline:$VERSION
+          docker push kupidon/java-app/github-pipline:${VERSION}
+          #docker push "${{ secrets.DOCKERHUB_USERNAME }}"/github-pipline:$VERSION
         working-directory: ./myapp
 
 
