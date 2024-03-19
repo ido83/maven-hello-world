@@ -60,7 +60,7 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "${VERSION}"
-          docker build -t java-app .
+          docker build -t kupidun/java-app:${VERSION} --build-arg VERSION=${VERSION} .
         working-directory: ./myapp
 
 
@@ -74,8 +74,9 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Version extracted: $VERSION"
-          docker image tag java-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+          docker image tag ${{ secrets.DOCKERHUB_USERNAME }}/java-app:${VERSION} ${{ secrets.DOCKERHUB_USERNAME }}/latest
           #docker image tag java-app ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
+          docker image push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:${VERSION}
           docker image push ${{ secrets.DOCKERHUB_USERNAME }}/java-app:latest
         working-directory: ./myapp
 
