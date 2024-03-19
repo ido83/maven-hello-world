@@ -29,11 +29,14 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t kupidun/java-app:${NEW_VERSION} .
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "${VERSION}"
+          docker build -t kupidun/java-app:${VERSION} --build-arg VERSION=$
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push kupidun/java-app:${NEW_VERSION}
-          docker tag kupidun/java-app:${NEW_VERSION} kupidun/java-app:latest
-          docker push kupidun/java-app:latest
+          docker image tag kupidun/java-app:$VERSION kupidun/java-app:latest
+          docker image tag kupidun/java-app:$VERSION kupidun/java-app:$VERSION
+          docker image push kupidun/java-app:$VERSION
+          docker image push kupidun/java-app:latest
         working-directory: ./myapp
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
