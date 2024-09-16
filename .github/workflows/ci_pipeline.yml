@@ -1,0 +1,103 @@
+name: Maven Build and Docker Image deploy
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v4
+
+      - name: update_version
+        working-directory: ./myapp
+        run: |
+          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          newVersion=$(echo $version | awk -F'[.-]' '{print $1"."$2"."$3+1}') >> $GITHUB_ENV
+          mvn versions:set -DnewVersion=$newVersion
+          echo "newVersion=$newVersion" >> "$GITHUB_ENV"
+          echo $newVersion >> version.txt
+
+      - name: Compile Code and Package Artifact
+        working-directory: ./myapp 
+        run: |
+          mvn clean package
+
+      - name: Create Jar artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ${{ github.workspace }}/myapp/target/*.jar
+
+      - name: Create Version artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: version
+          path: myapp/version.txt
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: my-artifact
+          path: ${{ github.workspace }}/myapp/target/
+      
+      - name: Download Version
+        uses: actions/download-artifact@v3
+        with:
+          name: version
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_UNAME }}
+          password: ${{ secrets.DOCKER_KEY }}
+      
+      - name: Set tag variable
+        run : |
+          echo "new_tag=$(cat version.txt)" >> "$GITHUB_ENV"
+      
+      - name: Build Docker image and push
+        uses: docker/build-push-action@v4
+        with:
+            context: .
+            file: Dockerfile
+            push: true
+            tags:  vladipiko/maven-hello-world:${{ env.new_tag }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+      - name: Download Version
+        uses: actions/download-artifact@v3
+        with:
+          name: version
+
+      - name: Set tag variable
+        run : |
+          echo "new_tag=$(cat version.txt)" >> "$GITHUB_ENV"
+          
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_UNAME }}
+          password: ${{ secrets.DOCKER_KEY }}
+
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+            image: ${{ secrets.DOCKER_REPO }}/maven-hello-world:${{ env.new_tag }}
+            # run: |
+            #   java -jar app.jar
