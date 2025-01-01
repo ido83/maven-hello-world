@@ -1,0 +1,75 @@
+name: Java Build and Dockerize
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'zulu'
+
+    - name: Update version
+      working-directory: ./myapp
+      id: update-version
+      run: |
+        # Get the current version
+        version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "Current version: $version"
+
+        # Split the version into major, minor, patch
+        IFS='.' read -r major minor patch <<< "$version"
+
+        # Increment the patch version
+        new_version="$major.$minor.$((patch+1))"
+        echo "New version: $new_version"
+
+        # Update the version in pom.xml
+        mvn versions:set -DnewVersion=$new_version
+        mvn versions:commit
+
+        # Export the new version to GitHub environment
+        echo "new_version=$new_version" >> $GITHUB_ENV
+
+    - name: Commit and push updated pom.xml
+      working-directory: ./myapp
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add pom.xml
+        git commit -m "Update version to $new_version" || echo "No changes to commit"
+        git push origin master
+
+    - name: Build with Maven
+      working-directory: ./myapp
+      run: mvn clean package
+
+    - name: Build Docker image
+      working-directory: ./myapp
+      run: |
+        docker build -t batelperetz/hello-world:$new_version .
+        echo "Docker image built: batelperetz/hello-world:$new_version"
+
+    - name: Push Docker image
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+      run: |
+        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        docker push batelperetz/hello-world:$new_version
+
+    - name: Run Docker image
+      run: |
+        docker pull batelperetz/hello-world:$new_version
+        docker run --rm batelperetz/hello-world:$new_version
