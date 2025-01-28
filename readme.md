@@ -1,4 +1,26 @@
+Important Notes for Developers
+1.Version Management
+
+The pipeline automatically increments the pom.xml version when you push changes to the dev or master branches.
+Example:
+If the current version is 1.0.0 and you push a commit, the pipeline updates it to 1.0.1.
+
+2.Syncing Your Local Repository
+
+After a pipeline run, your local repository may be out of sync because the pom.xml file is updated and committed by the workflow.
+Always run the following command before making new changes:
+
+git pull origin dev  # For the dev branch
+git pull origin master  # For the master branch
+This ensures you have the latest version of the pom.xml and other files.
+
+3.Triggering the Pipeline
+
+The pipeline is triggered automatically when you push to the dev or master branches.
+
+
 # A simple, minimal Maven example: hello world
+
 
 To create the files in this git repo we've already run `mvn archetype:generate` from http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
     
